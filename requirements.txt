@@ -1,0 +1,13 @@
+numpy
+pandas
+ipykernel
+ipython
+jupyter-client
+jupyter-core
+matplotlib
+seaborn 
+bottleneck
+jinja2
+
+#.\.venv\Scripts\activate   # activate venv if not already
+#pip install -r requirements.txt 
