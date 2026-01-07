@@ -1,92 +1,108 @@
-# **Crop Yield Prediction**
-Unpredictable climate conditions have significantly affected agricultural productivity, contributing to global food insecurity (World Food Program USA, 2024). This project aims to identify key drivers of global crop yield and to forecast yields across different locations and crops. The workflow includes descriptive analysis, correlation analysis, feature engineering, and machine learning modeling. 
+# **Fraudulent Job Prediction**
+Online recruitment fraud has become increasingly prevalent in Malaysia due to rising living costs and the growing number of online job platforms. Many job seekers struggle to differentiate between legitimate and fraudulent job postings, leading to financial losses and loss of trust in digital hiring platforms.
+
+This project aims to build a machine learning–based classification system to accurately detect fraudulent job postings using structured metadata and unstructured text features, while balancing predictive performance, computational efficiency, and real-world deployability.
 
 **🛠️ Tools, Techniques & Platforms Used**
 
 - **Programming Language:** Python
 - **Libraries:** Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
-- **Models:** Random Forest, Linear Regression, Decision Tree
-- **Evaluation Metrics:** R² score ,MAE, MSE, RMSE
-- **Resampling Technique:** Bootstrap
+- **NLP Techniques:** TF-IDF Vectorization, Text Feature Engineering
+- **Models:** Random Forest, Decision Tree, K-Nearest Neighbour (KNN), Linear SVC, SGD Classifier
+- **Evaluation Metrics:** Accuracy, Precision, Recall, F1-score
+- **Resampling Technique:** Random Over-Sampling
+- **Depolyment Tools:** GitHub, Google Colab, Streamlit
 
 ## ⚙️ Project Structure /method
 
 ### 1. Dataset
-The datasets are sourced from the [World Bank](https://data.worldbank.org/) available on [Kaggle](https://www.kaggle.com/datasets/patelris/crop-yield-prediction-dataset/data). The dataset is provided under the **World Bank Dataset Terms of Use**.  Please refer to the [World Bank Terms](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) for details on permitted usage.
+The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction) and contains 17,880 job postings with 17 features and 1 binary target variable indicating whether a job posting is fraudulent.
 
-This dataset is a compiled agricultural dataset containing historical crop yield records with environmental variables across multiple countries and years.
+The dataset consists of a mix of categorical, boolean, numerical, and text-based features, making it suitable for both traditional machine learning and NLP-based approaches.
 
-The attributes in the dataset are:
-- **Area**: Country or region where the crop is produced
-- **Item**: Type of crop (e.g., maize, wheat, rice)
-- **Year**: Year of observation
-- **Yield**: Crop yield measured in hectograms per hectare (hg/ha)
-- **Rainfall**: Average annual rainfall (mm)
-- **Pesticides**: Amount of pesticide usage (tonnes)
-- **Temp**: Average annual temperature (°C)
+The key attributes in the dataset are:
+- **Job metadata:** title, location, department, salary range, employment type, benefit
+- **Company information:** company profile, industry, function
+- **Target variable:** fraudulent (0 = real, 1 = fraud)
 
 ### 2. Preprocessing
 The following preprocessing steps were applied:
-- Removed unnecessary metadata columns (Area Code, Domain, Element Code, etc.)
-- Renamed column for better readability and understanding.
-- Handled missing values by removing incomplete rows
-- Data formatting
-- Combined yield, rainfall, temperature, and pesticide dataframe by year and country
-- Data trimming by identify the value of the 95th percentile and remove outliers
-- Encoded categorical variables (country, crop type) using one-hot encoding
+- Removed rows with excessive missing values (<10% of total dataset)
+- Filled remaining missing categorical values with “unspecified”
+- Performed statistical analysis on text-based word counts
+- Addressed class imbalance using random over-sampling
+- Converted text features using TF-IDF vectorization
+- Applied one-hot encoding to categorical variables
+- Ensured final dataset contained only numerical features for model training
+- Statistical significance testing showed that company profile and job requirements word counts are strong predictors of fraudulent postings.
 
 ### 3. Data Exploration
-- Data Distribution
-    - Histograms and boxplots were used to analyze the distributions of crop yield, rainfall, temperature, and pesticide usage.
-        - Yield & Pesticide is right skewed
-        - <img src="image/data distribution (histogram).png" alt="Alt text" width="500" height="500">   
-- Correlation Analysis
-    - A correlation heatmap was used to identify relationships between numerical variables.
-        - There are correlation between Area and pesticides_tonnes, followed by Area and average rainfall
-        - There are correlation between Item and hg/ha_yield
-        - <img src="image/correlation heatmap.png" alt="Alt text" width="400" height="400">   
-- Trend Analysis
-    - Time series plots were created to analyze crop yield trends across years.
-        - The yield and pesticides used increases graduallly over time
-        - <img src="image/trend analysis.png" alt="Alt text" width="500" height="300">   
-- Descriptive Analysis
-    - Top 10 Countries by Total Yield (log scale)
-        - <img src="image/Top 10 Countries by Total Yield (log scale).png" alt="Alt text" width="500" height="300">    
-    - Top 20 Total Yields by Item
+- Class Distribution Analysis
+    - Fraudulent postings were significantly underrepresented, confirming the need for resampling techniques.
+- Feature Distribution Analysis
+    - Distribution plots were used to compare fraudulent vs real job postings across features.
+- Text Feature Analysis
+    - Word count distributions and hypothesis testing highlighted meaningful linguistic differences between fraudulent and legitimate job posts.
+
+These analyses guided feature selection and preprocessing decisions for downstream modeling.
         - <img src="image/Top 10 Total Yields by Item.png" alt="Alt text" width="500" height="300">    
 
 ### 4. Modelling
-The dataset was split into training and testing sets (80:20). The following models were evaluated:
-- Linear Regression
-- Decision Tree
+The dataset was split into training and testing sets (80:20). Five supervised classification models were trained and compared:
+
 - Random Forest
+- Decision Tree
+- K-Nearest Neighbour (KNN)
+- Linear Support Vector Classifier (SVC)
+- Stochastic Gradient Descent (SGD) Classifier
 
 **Evaluation**
 - Tree-based models performed better than linear regression, indicating the presence of nonlinear relationships.
 
-    | Model | Description | Performance | R2_score | MSE | RMSE | MAE |
-    |------|-------------|-------------|------|-------------|-------------|-------------| 
-    | Linear Regression | Baseline linear model | Moderate | 0.807 | 0.224 | 0.473 | 0.356 |
-    | Decision Tree | Captures non-linear patterns | High | 0.966 | 0.039 |	0.198 |	0.068 |
-    | Random Forest | Ensemble tree-based model | Very High | 0.981 |	0.022	| 0.149	| 0.063 |
-   
+    | Model | Accuracy | Percision | Recall | F1-Score |
+    |------|-------------|-------------|-------|-------------| 
+    | Random Forest | 99.95 | 99.95 |99.95 | 99.95 |
+    | Decision Tree  | 98.81 | 98.83 | 98.81 | 98.81 |
+    | KNN | 96.71 | 92.79 | 96.72 | 92.42 |
+    | Linear SVC | 92.43 | 94.00 | 92.43 | 94.00 |
+    | SGD | 73.60 | 74.49 | 73.60 | 73.36 |
+
    <br><br>
     <img src="image/Plots LR.png" alt="Alt text" width="300" height="300"> 
-    <img src="image/Plots DT.png" alt="Alt text" width="300" height="300"> 
-    <img src="image/Plots RF.png" alt="Alt text" width="300" height="300">    
-    <br><br>
+   <br><br>
 
-- Feature Importance Stability
-    - Feature importance was evaluated using Random Forest with repeated subsampling
-    - Mean importance and MAD (Mean Absolute Deviation) were computed to assess both relevance and stability.
+- Tree-based models significantly outperformed linear models, indicating strong non-linear relationships in the dataset.
 
 
 ## 📊 Findings
-- Model with the best performance is **Random Forest** after further hypertunning , with good residual plot result presented and high accuracy (R²) as 98.13%
-- Feature importance analysis revealed that crop type and geographic location dominate yield prediction, while environmental variables provide secondary but consistent contributions. Feature importance estimates are highly stable across repeated subsampling.
-- While this limits interpretability of climate effects, it highlights the strong structural determinants of agricultural productivity. A secondary model excluding crop and location variables was therefore considered to assess the isolated impact of environmental factors.
+- Random Forest achieved the best overall performance across all metrics and demonstrated strong robustness to noisy and high-dimensional features.
+- Decision Tree provided good interpretability with competitive performance but required careful overfitting control.
+- KNN showed high accuracy but suffered from scalability and computational cost issues.
+- Linear models (Linear SVC, SGD) were efficient but underperformed on complex feature interactions.
+- Text-based features, when combined with structured metadata, significantly improved fraud detection capability.
 
+This project demonstrates that machine learning, combined with NLP techniques, can effectively detect fraudulent job postings with high accuracy. The deployed system provides a practical, low-cost solution suitable for real-world use.
+
+Future enhancements include:
+- Hyperparameter optimization and feature selection refinement
+- Incorporating deep learning models for text understanding
+- Real-time monitoring and automated model retraining
+- Expansion to multilingual job postings
+
+## 🚀 Deployment
+The best-performing Random Forest model was deployed using a Streamlit web application, allowing users to input job posting details and receive real-time fraud predictions.
+
+Deployment Platform: Streamlit Cloud
+Repository Hosting: GitHub
+Prediction Time: ~30 seconds
+Reported Accuracy: 99.95%
+
+🔗 [Live App](https://fakejobsdeploy-wqd7006-group15.streamlit.app)
 
 
 ## References
-- *World Food Program USA*. (2024, April 29). *How Climate Change Is Causing World Hunger*.  https://wfpusa.org/news/how-climate-change-is-causing-world-hunger/
+- Pablo, Guillermo & Alberto. (2023). Fake Job Detection with Machine Learning: A Comparison.
+
+- Nasteski, V. (2017). An overview of supervised machine learning methods.
+
+- Wang, X., Yan, L., & Zhang, Q. (2021). Application of gradient descent in ML.

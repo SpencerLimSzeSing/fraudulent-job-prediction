@@ -8,6 +8,7 @@ matplotlib
 seaborn 
 bottleneck
 jinja2
+nltk
 
 #.\.venv\Scripts\activate   # activate venv if not already
 #pip install -r requirements.txt 
