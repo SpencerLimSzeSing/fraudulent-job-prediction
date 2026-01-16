@@ -38,14 +38,17 @@ The following preprocessing steps were applied:
 
 ### 3. Data Exploration
 - Class Distribution Analysis
-    - Fraudulent postings were significantly underrepresented, confirming the need for resampling techniques.
+    - Real job postings were significantly underrepresented, confirming the need for resampling techniques.
+    - <img src="image/Count of Fraudulent vs Real Job Posts.png" alt="Alt text" width="400" height="300"> 
 - Feature Distribution Analysis
     - Distribution plots were used to compare fraudulent vs real job postings across features.
+    - <img src="image/Count of Fraudulent vs Real Job Posts (Binary Features).png" alt="Alt text" width="900" height="300">
+    - <img src="image/Count of Fraudulent vs Real Job Posts (Categorical Features).png" alt="Alt text" width="1200" height="400">   
 - Text Feature Analysis
     - Word count distributions and hypothesis testing highlighted meaningful linguistic differences between fraudulent and legitimate job posts.
 
 These analyses guided feature selection and preprocessing decisions for downstream modeling.
-        - <img src="image/Top 10 Total Yields by Item.png" alt="Alt text" width="500" height="300">    
+  
 
 ### 4. Modelling
 The dataset was split into training and testing sets (80:20). Five supervised classification models were trained and compared:
