@@ -92,8 +92,9 @@ target/
 # Exclude trained models
 /models/
 
-# exclude data from source control by default
-# /data/
+# exclude processed data 
+/data/processed
 
+# exclude docs
 docs/Report.docx
 docs/slides.pptx
