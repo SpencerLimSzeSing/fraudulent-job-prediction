@@ -94,12 +94,7 @@ This project demonstrates that machine learning, combined with NLP techniques, c
 - Expansion to multilingual job postings
 
 ## 🚀 Deployment
-The best-performing Random Forest model was deployed using a Streamlit web application, allowing users to input job posting details and receive real-time fraud predictions.
-
-Deployment Platform: Streamlit Cloud
-Repository Hosting: GitHub
-Prediction Time: ~30 seconds
-Reported Accuracy: 99.95%
+The best-performing model was deployed using a Streamlit web application, allowing users to input job posting details and fraud predictions.
 
 🔗 [Live App](https://fraudulent-job-prediction-404.streamlit.app/)
 
