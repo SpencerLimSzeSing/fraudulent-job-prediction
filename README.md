@@ -10,8 +10,7 @@ This project aims to build a machine learning–based classification system to a
 - **NLP Techniques:** TF-IDF Vectorization, Text Feature Engineering
 - **Models:** Random Forest, Decision Tree, XGB Classifier, SGD Classifier
 - **Evaluation Metrics:** Accuracy, Precision, Recall, F1-score
-- **Resampling Technique:** Random Over-Sampling
-- **Depolyment Tools:** GitHub, Google Colab, Streamlit
+- **Depolyment Tools:** GitHub, Google Colab, [Streamlit](https://fraudulent-job-prediction-404.streamlit.app/)
 
 ## ⚙️ Project Structure /method
 
