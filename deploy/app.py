@@ -18,16 +18,6 @@ model = joblib.load(os.path.join(BASE_DIR, "best_model.pkl"))
 vectorizers = joblib.load(os.path.join(BASE_DIR, "tfidf_vectorizers.pkl"))
 ohe = joblib.load(os.path.join(BASE_DIR, "ohe_encoder.pkl"))
 
-text_cols = ["description", "title", "company_profile", "requirements", "benefits"]
-cat_cols = ["employment_type", "required_experience", "country"]
-bin_cols = [
-    "telecommuting",
-    "has_company_logo",
-    "has_questions",
-    "salary_specified",
-    "company_profile_specified",
-]
-num_cols = ["company_profile_word_count", "requirements_word_count"]
 
 THRESHOLD = 0.4
 # ==============================
@@ -264,16 +254,26 @@ with col1:
     analyze_button = st.button("Check for Fraud")
 # ==============================
 
+cat_cols = ["employment_type", "required_experience", "country"]
+
 
 # ==============================
 # Prediction Logic
 def transform_input(input_dict):
-    # 1. Text Transformation (26,000 features)
+    # 1. Text Transformation (Order: Desc, Title, Profile, Req, Benefits)
     text_matrices = []
-    for col in text_cols:
+    # This must match: [X_train_desc, X_train_title, X_train_company_profile, X_train_requirements, X_train_benefits]
+    ordered_text_cols = [
+        "description",
+        "title",
+        "company_profile",
+        "requirements",
+        "benefits",
+    ]
+    for col in ordered_text_cols:
         text_matrices.append(vectorizers[col].transform([input_dict.get(col, "")]))
 
-    # 2. Categorical Transformation (Encoded)
+    # 2. Categorical Transformation (X_train_cat)
     cat_df = pd.DataFrame(
         [
             [
@@ -286,12 +286,13 @@ def transform_input(input_dict):
     )
     X_cat = ohe.transform(cat_df.fillna("Unknown"))
 
-    # 3. Numerical Features (Word Counts)
-    desc_words = len((input_dict.get("description", "") or "").split())
+    # 3. Numerical Features (X_train_num)
+    # MUST MATCH ORDER: [company_profile_word_count, requirements_word_count]
     comp_words = len((input_dict.get("company_profile", "") or "").split())
-    X_num = np.array([[comp_words, desc_words]])
+    req_words = len((input_dict.get("requirements", "") or "").split())
+    X_num = np.array([[comp_words, req_words]])
 
-    # 4. Binary Features
+    # 4. Binary Features (X_train_bin)
     X_bin = np.array(
         [
             [
@@ -304,9 +305,7 @@ def transform_input(input_dict):
         ]
     )
 
-    # 5. Final HSTACK (Must match training order exactly!)
-    # X_train_desc, X_train_title, X_train_company_profile, X_train_requirements, X_train_benefits,
-    # X_train_cat, X_train_num, X_train_bin
+    # 5. Final HSTACK (Matches your training hstack exactly)
     return hstack(text_matrices + [X_cat, X_num, X_bin])
 
 

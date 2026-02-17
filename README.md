@@ -63,38 +63,27 @@ The dataset was split into training and testing sets using an 80:20 ratio. Four 
 
 **Model Performance**
 
-
-
 ## 📊 Findings
 ### Model Performance Comparison
 
 | Model | Accuracy | Precision | Recall | F1-Score | PR_AUC | Execution time (s) |
 |-------|----------|-----------|--------|----------|--------|--------------------|
-| XGB | 98.20 | 96.49 | 65.09 | 77.74 | 88.36 | 51.70 |
-| Random Forest | 98.06 | 100.00 | 59.76 | 74.81 | 86.52 | 4.31 |
-| Decision Tree | 96.89 | 66.67 | 71.00 | 68.77 | 48.73 | 11.04 |
-| SGD | 86.97 | 21.20 | 62.72 | 21.69 | 16.83 | 0.47 |
+| Random Forest | 98.40 | 98.29 | 68.04 | 80.42 | 99.28 | 94.53 | 3.55 |
+| XGB | 98.69 | 96.90 | 76.92 | 84.97| 99.47 | 93.45 | 92.45 |
+| Decision Tree | 97.83 | 77.51 | 77.51 | 77.51 | 88.19 | 61.17 | 12.29 |
+| SGD | 95.84 | 75.56 | 20.12 | 31.78 | 82.66 | 42.02 | 1.14 |
 
-- **XGBoost** delivered the best balance between recall and precision, achieving the highest F1-score and PR-AUC. But it required significantly longer execution time.
-- **Random Forest** achieved perfect precision (1.00), making virtually no false fraud predictions, but had lower recall (59.76%), missing some fraudulent postings.
+- **XGBoost** provides the highest F1-Score (84.97%) and PR_AUC, making it the most robust model for handling class imbalance. But its execution time is ~26x slower than Random Forest.
+- **Random Forest** maintains elite precision (98.29%) and a strong PR_AUC while remaining computationally efficient.
 - **Final Model Selection**: Random Forest was chosen for tuning based on comparable performance to XGBoost (similar F1-score and PR-AUC) with faster execution time.
 
 ### Handling Class Imbalance & Hyperparameter Tuning 
 To address the class imbalance in fraudulent job postings, two strategies were applied:
-- **Class Weighting**: Applied `class_weight='balanced'` to penalize misclassification of minority (fraud) cases
+- **Class Weighting**: Applied `class_weight='balanced_subsample'` to penalize misclassification of minority (fraud) cases
 - **Threshold Tuning**: Tested multiple decision thresholds to optimize the precision-recall trade-off
 - Tuned Random Forest model with parameters below
-- `class_weight='balanced'` , `decision threshold = 0.2 `,`'max_features': 'sqrt'`, `'min_samples_split': 2`, `'n_estimators': 200`
-- Final tuned model performance: 
+- `class_weight='class_weight='balanced_subsample'` , `decision threshold = 0.4 `,`'max_features': 'log2'`, `'min_samples_split': 2`, `'n_estimators': 300`
 
-| Model | Accuracy | Precision | Recall | F1-Score | PR_AUC | Execution time (s) |
-|-------|----------|-----------|--------|----------|--------|--------------------|
-| Random Forest | 98.26 | 81.03 | 83.43 | 82.22 | 89.61 | 17.44 |
-
-- Significantly improved recall (≈60% → 83%)
-- Maintained strong precision (>80%)
-- Achieved a better F1-score and PR-AUC
-- Provided a more balanced fraud detection capability
 
 This project demonstrates that machine learning, combined with NLP techniques, can effectively detect fraudulent job postings. The deployed system provides a practical, low-cost solution suitable for real-world use.
 
@@ -112,7 +101,7 @@ Repository Hosting: GitHub
 Prediction Time: ~30 seconds
 Reported Accuracy: 99.95%
 
-🔗 [Live App](https://fakejobsdeploy-wqd7006-group15.streamlit.app)
+🔗 [Live App](https://fraudulent-job-prediction-404.streamlit.app/)
 
 
 ## References
