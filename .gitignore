@@ -96,5 +96,7 @@ target/
 /data/processed
 
 # exclude docs
-docs/Report.docx
-docs/slides.pptx
+/docs/Report.docx
+/docs/slides.pptx
+/docs/code.ipynb
+/docs/G colab.url

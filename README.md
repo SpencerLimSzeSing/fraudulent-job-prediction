@@ -1,8 +1,9 @@
 # **Fraudulent Job Prediction**
-Online recruitment fraud has become increasingly prevalent in Malaysia due to rising living costs and the growing number of online job platforms. Many job seekers struggle to differentiate between legitimate and fraudulent job postings, leading to financial losses and loss of trust in digital hiring platforms.
+**Problem statement:** Online recruitment fraud has become increasingly prevalent in Malaysia due to rising living costs and the growing number of online job platforms. Many job seekers struggle to differentiate between legitimate and fraudulent job postings, leading to financial losses and loss of trust in digital hiring platforms.
 
-This project aims to build a machine learning–based classification system to accurately detect fraudulent job postings using structured metadata and unstructured text features, while balancing predictive performance, computational efficiency, and real-world deployability.
+**Goal:** This project aims to build a machine learning–based classification system to accurately detect fraudulent job postings using structured metadata and unstructured text features, while balancing predictive performance, computational efficiency, and real-world deployability.
 
+## ⚙️ Project Structure /method
 **🛠️ Tools, Techniques & Platforms Used**
 
 - **Programming Language:** Python
@@ -11,8 +12,6 @@ This project aims to build a machine learning–based classification system to a
 - **Models:** Random Forest, Decision Tree, XGB Classifier, SGD Classifier
 - **Evaluation Metrics:** Accuracy, Precision, Recall, F1-score
 - **Depolyment Tools:** GitHub, Google Colab, [Streamlit](https://fraudulent-job-prediction-404.streamlit.app/)
-
-## ⚙️ Project Structure /method
 
 ### 1. Dataset
 The dataset was sourced from [Kaggle](https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction) and contains 17,880 job postings with 17 features and 1 binary target variable indicating whether a job posting is fraudulent.
